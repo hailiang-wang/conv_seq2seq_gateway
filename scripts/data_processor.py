@@ -46,6 +46,26 @@ class Test(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def test_gf_demo_data(self):
+        f_c = os.path.join(curdir, os.path.pardir, "data", "dev", "content-dev.txt")
+        f_p = os.path.join(curdir, os.path.pardir, "data", "dev", "predict.txt")
+        f_t = os.path.join(curdir, os.path.pardir, "data", "dev", "title-dev.txt")
+        f_j = os.path.join(curdir, os.path.pardir, "data", "dev", "result.json")
+        result = []
+        ct = 1
+        with open(f_c, "r") as fin_c, open(f_p, "r") as fin_p, open(f_t, "r") as fin_t:
+            for (x,y,z) in zip(fin_c.readlines(), fin_p.readlines(), fin_t.readlines()):
+                result.append({
+                    "content": x.strip(),
+                    "predict": y.strip(),
+                    "headline": z.strip()
+                })
+                ct += 1
+
+        json_str = json.dumps(result, ensure_ascii=False)  
+        with open(f_j, "w") as fout:
+            fout.write(json_str)
+
     def test_json_demo_data(self):
         from_ = os.path.join(curdir, os.path.pardir, "data", "textsum-demo.csv")
         to_ = os.path.join(curdir, os.path.pardir, "data", "textsum-demo.json")
