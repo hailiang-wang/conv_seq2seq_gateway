@@ -67,18 +67,20 @@ class Test(unittest.TestCase):
             fout.write(json_str)
 
     def test_json_demo_data(self):
-        from_ = os.path.join(curdir, os.path.pardir, "data", "textsum-demo.csv")
+        # from_ = os.path.join(curdir, os.path.pardir, "data", "textsum-demo.csv")
+        from_ = os.path.join(curdir, os.path.pardir, "data", "自动摘要test金融数据.csv")
         to_ = os.path.join(curdir, os.path.pardir, "data", "textsum-demo.json")
-        result = dict()
+        if os.path.exists(to_): os.remove(to_)
+        result = []
         ct = 1
         with open(from_, "r") as fin:
             for x in fin.readlines():
-                x = x.strip().split("\t")
-                assert len(x) == 3, "x should contain 3 members."
+                x = x.strip().split(",")
+                assert len(x) >= 3, "x should contain 3 members."
                 c = x[0]
                 t_o = x[1]
-                t_p = x[2]
-                result[ct] = dict({
+                t_p = x[3]
+                result.append({
                     "content": c,
                     "predict": t_p,
                     "headline": t_o
